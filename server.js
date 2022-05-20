@@ -8,12 +8,12 @@ require('dotenv').config();
 
 const app = express();
 
-const URI = process.env.DATABASE;
+
 // db connection
 mongoose
-.connect(URI, {
+.connect(process.env.DATABASE, {
    useNewUrlParser: true, 
-   useUnifiedTopology: true
+   useUnifiedTopology: true,
 })
 .then(() => console.log("DB Connected"))
 .catch((err) => console.log("DB Connection Error: ", err));
@@ -21,6 +21,7 @@ mongoose
 // middleware
 app.use(cors());
 app.use(morgan("dev"));
+app.use(express.json());
 
 // route middleware
 readdirSync("./routes").map((r) => app.use("/api", require(`./routes/${r}`)));
